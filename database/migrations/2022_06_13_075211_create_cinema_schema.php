@@ -36,7 +36,47 @@ class CreateCinemaSchema extends Migration
      */
     public function up()
     {
-        throw new \Exception('implement in coding task 4, you can ignore this exception if you are just running the initial migrations.');
+        Schema::create('showrooms', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('cinema_id');
+            $table->enum('status',['Available','Booked','Active','Inactive']);
+            $table->timestamps();
+        });
+
+        Schema::create('showroom_seats', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('type_id'); //premium,vip
+            $table->integer('showroom_id');
+            $table->enum('status',['Available','Booked','Active','Inactive']);
+            $table->timestamps();
+        });
+
+        Schema::create('seat_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->float('price');
+            $table->timestamps();
+        });
+
+        Schema::create('shows', function (Blueprint $table) {
+            $table->id();
+            $table->string('film_name');
+            $table->integer('cinema_id');
+            $table->integer('showroom_id');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->enum('status',['Not Booked','Booked']);
+            $table->timestamps();
+        });
+
+        Schema::create('bookings', function (Blueprint $table) {
+            $table->id();
+            $table->integer('show_id');
+            $table->integer('showroom_seat_id');
+            $table->timestamps();
+        });
     }
 
     /**
